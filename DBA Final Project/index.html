@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LuzonLoop is a database-backed event board for Luzon, with filters, saved listings, account sign-in, and event details." />
+  <title>LuzonLoop — Event Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="Loading LuzonLoop">
+    <div class="loading-inner">
+      <div class="loading-mark" aria-hidden="true">L</div>
+      <div class="loading-copy">
+        <span class="loading-kicker">LUZONLOOP / EVENT BOARD</span>
+        <p>Setting the board.</p>
+        <div class="loading-track" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" id="brandLink" href="#top" aria-label="LuzonLoop home">
+        <span class="brand-mark" aria-hidden="true">L</span>
+        <span class="brand-name">Luzon<span>Loop</span></span>
+      </a>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link active" id="boardNavLink" href="#events">The board</a>
+        <button class="nav-link saved-nav" id="savedNavButton" type="button" aria-pressed="false">Saved <span id="savedNavCount">0</span></button>
+      </nav>
+
+      <div class="account-area">
+        <span class="user-greeting" id="userGreeting" hidden></span>
+        <button class="account-button" id="accountButton" type="button" hidden>Account</button>
+        <button class="sign-up-button" id="signUpButton" type="button">Sign up</button>
+        <button class="sign-in-button" id="signInButton" type="button">Sign in <span aria-hidden="true">↗</span></button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="saved-hero" id="savedHero" hidden>
+        <div class="saved-hero-copy">
+          <p class="kicker"><span class="kicker-rule" aria-hidden="true"></span> LUZONLOOP / SAVED LIST</p>
+          <h1>Kept for later<span class="period">.</span></h1>
+          <p class="saved-hero-description" id="savedHeroDescription"></p>
+        </div>
+        <button class="saved-back" id="backToBoardButton" type="button">Back to the board <span aria-hidden="true">←</span></button>
+      </section>
+
+      <section class="hero" id="heroSection" aria-labelledby="heroTitle">
+        <div class="hero-copy">
+          <p class="kicker"><span class="kicker-rule" aria-hidden="true"></span> LUZONLOOP / AN EVENT BOARD</p>
+          <h1 id="heroTitle">A running list of things <em>worth showing up for.</em></h1>
+          <p class="hero-description">Gaming, gigs, conventions, food trips, and community gatherings across Luzon — gathered in one place, with the practical details up front.</p>
+          <div class="hero-actions">
+            <a href="#events" class="hero-cta">See what’s on <span aria-hidden="true">→</span></a>
+            <span class="hero-note">Live listings · Online, NCR, and provinces</span>
+          </div>
+        </div>
+
+        <aside class="hero-notice" aria-label="Coming up on the loop">
+          <span class="notice-pin" aria-hidden="true"></span>
+          <div class="notice-head"><span>FIELD NOTES</span><span>UP NEXT</span></div>
+          <h2 class="notice-title">Coming up<br>on the loop</h2>
+          <ol class="notice-list">
+            <li><span>05 DEC</span><strong>SMX Game Arena</strong><small>Pasay City</small></li>
+            <li><span>12 DEC</span><strong>Cosplay Carnival</strong><small>Muntinlupa</small></li>
+            <li><span>31 DEC</span><strong>Lucena Community Festival</strong><small>Quezon</small></li>
+          </ol>
+        </aside>
+
+        <div class="hero-meta"><span>DISCOVER</span><span>LUZON, PHILIPPINES</span></div>
+      </section>
+
+      <div class="index-strip" id="indexStrip" aria-hidden="true">
+        <div class="index-marquee">
+          <div class="index-marquee-track">
+            <div class="index-group">
+              <span>Gaming &amp; Esports</span><span>Music &amp; Concerts</span><span>Cosplay</span><span>Anime &amp; Pop Culture</span><span>Technology &amp; Innovation</span><span>Arts &amp; Culture</span><span>Food &amp; Beverage</span><span>Sports &amp; Fitness</span><span>Educational &amp; Academic</span><span>Business &amp; Networking</span><span>Automotive &amp; Motorsports</span><span>Fashion &amp; Lifestyle</span><span>Film &amp; Photography</span><span>Community &amp; Festivals</span>
+            </div>
+            <div class="index-group">
+              <span>Gaming &amp; Esports</span><span>Music &amp; Concerts</span><span>Cosplay</span><span>Anime &amp; Pop Culture</span><span>Technology &amp; Innovation</span><span>Arts &amp; Culture</span><span>Food &amp; Beverage</span><span>Sports &amp; Fitness</span><span>Educational &amp; Academic</span><span>Business &amp; Networking</span><span>Automotive &amp; Motorsports</span><span>Fashion &amp; Lifestyle</span><span>Film &amp; Photography</span><span>Community &amp; Festivals</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="event-section" id="events" aria-labelledby="eventsTitle">
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <p class="kicker dark-kicker" id="sectionKicker">THE BOARD</p>
+            <h2 id="eventsTitle">On the board<span class="period">.</span></h2>
+            <p class="section-subtitle" id="sectionSubtitle">Browse listings across Luzon. Narrow them by place, category, entrance, or status.</p>
+          </div>
+          <div class="event-total"><strong id="eventTotal">0</strong><span>listings</span></div>
+        </div>
+
+        <div class="filter-panel" aria-label="Event filters">
+          <div class="filter-heading"><span>FILTERS</span><span>USE ANY / ALL</span></div>
+          <div class="search-wrap">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Search events, venues, or cities..." autocomplete="off" aria-label="Search events" />
+            <kbd>↵</kbd>
+          </div>
+          <label class="filter-select-wrap">
+            <span class="filter-label">PLACE</span>
+            <select id="locationFilter" aria-label="Filter by location">
+              <option value="all">All places</option>
+              <option value="Online">Online</option>
+              <option value="NCR">NCR</option>
+              <option value="Outside NCR">Outside NCR</option>
+            </select>
+          </label>
+          <label class="filter-select-wrap">
+            <span class="filter-label">CATEGORY</span>
+            <select id="typeFilter" aria-label="Filter by event type">
+              <option value="all">All categories</option>
+              <option value="Gaming &amp; Esports">Gaming &amp; Esports</option>
+              <option value="Music &amp; Concerts">Music &amp; Concerts</option>
+              <option value="Cosplay">Cosplay</option>
+              <option value="Anime &amp; Pop Culture">Anime &amp; Pop Culture</option>
+              <option value="Technology &amp; Innovation">Technology &amp; Innovation</option>
+              <option value="Arts &amp; Culture">Arts &amp; Culture</option>
+              <option value="Food &amp; Beverage">Food &amp; Beverage</option>
+              <option value="Sports &amp; Fitness">Sports &amp; Fitness</option>
+              <option value="Educational &amp; Academic">Educational &amp; Academic</option>
+              <option value="Business &amp; Networking">Business &amp; Networking</option>
+              <option value="Automotive &amp; Motorsports">Automotive &amp; Motorsports</option>
+              <option value="Fashion &amp; Lifestyle">Fashion &amp; Lifestyle</option>
+              <option value="Film &amp; Photography">Film &amp; Photography</option>
+              <option value="Community &amp; Festivals">Community &amp; Festivals</option>
+            </select>
+          </label>
+          <label class="filter-select-wrap entrance-select-wrap">
+            <span class="filter-label">ENTRANCE</span>
+            <select id="entranceFilter" aria-label="Filter by entrance type">
+              <option value="all">All entrance</option>
+              <option value="free">Free entrance</option>
+              <option value="paid">Paid entrance</option>
+            </select>
+          </label>
+          <button class="reset-button" id="resetFilters" type="button">Clear <span aria-hidden="true">↺</span></button>
+        </div>
+
+        <div class="status-row">
+          <div class="status-tabs" role="group" aria-label="Filter by event status">
+            <button class="status-tab active" data-status="all" type="button">All <span id="countAll">0</span></button>
+            <button class="status-tab" data-status="Upcoming" type="button">Upcoming <span id="countUpcoming">0</span></button>
+            <button class="status-tab" data-status="In Progress" type="button">In progress <span id="countProgress">0</span></button>
+            <button class="status-tab" data-status="Finished" type="button">Finished <span id="countFinished">0</span></button>
+          </div>
+          <p class="results-label" id="resultsLabel">Showing all listings</p>
+        </div>
+
+        <div class="event-grid" id="eventGrid" aria-live="polite"></div>
+        <div class="empty-state" id="emptyState" hidden>
+          <div class="empty-mark" aria-hidden="true">—</div>
+          <h3 id="emptyTitle">Nothing under this filter.</h3>
+          <p id="emptyMessage">Try a different place, category, entrance, or status.</p>
+          <button class="reset-empty" id="emptyReset" type="button">Clear filters</button>
+        </div>
+      </section>
+
+      <section class="closing-note" id="closingNote">
+        <div class="closing-copy">
+          <p class="kicker">END OF LIST</p>
+          <h2>That’s the board<br><em>for now.</em></h2>
+        </div>
+        <a href="#events" class="closing-link">Back to the listings <span aria-hidden="true">↑</span></a>
+        <span class="closing-stamp" aria-hidden="true">LUZONLOOP<br><span id="closingYear"></span></span>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <a class="brand footer-brand" href="#top"><span class="brand-mark">L</span><span class="brand-name">Luzon<span>Loop</span></span></a>
+      <div class="footer-meta">
+        <span class="footer-clock">MANILA, PH <time id="manilaTime">--:--:--</time></span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="detailsModal" hidden>
+    <section class="details-modal" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+      <button class="modal-close details-close" id="closeDetails" type="button" aria-label="Close event details">×</button>
+      <div class="details-poster poster" id="detailsPoster" aria-hidden="true"></div>
+      <div class="details-body">
+        <h2 id="detailsTitle"></h2>
+        <div class="details-badges" id="detailsBadges"></div>
+        <p class="details-description" id="detailsDescription"></p>
+        <div class="details-grid">
+          <div class="detail-item"><span>WHEN</span><strong id="detailsWhen"></strong></div>
+          <div class="detail-item"><span>VENUE</span><strong id="detailsWhere"></strong></div>
+          <div class="detail-item"><span>AREA</span><strong id="detailsArea"></strong></div>
+          <div class="detail-item"><span>ORGANIZER</span><strong id="detailsOrganizer"></strong></div>
+          <div class="detail-item"><span>INTERESTED</span><strong id="detailsInterestedValue"></strong></div>
+        </div>
+        <p class="details-subhead">WHAT TO EXPECT</p>
+        <div class="details-highlights" id="detailsHighlights"></div>
+        <div class="details-actions">
+          <button class="interest-button" id="detailsInterest" type="button">Interested</button>
+          <button class="save-button" id="detailsSave" type="button">Save listing</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="loginModal" hidden>
+    <section class="login-modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+      <button class="modal-close" id="closeLogin" type="button" aria-label="Close sign-in">×</button>
+      <p class="kicker dark-kicker">ACCOUNT SIGN-IN</p>
+      <h2 id="loginTitle">Come back to<br><span>your list.</span></h2>
+        <form id="loginForm" novalidate>
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" placeholder="you@example.com" required maxlength="255" autocomplete="email" />
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" placeholder="Your account password" required maxlength="72" autocomplete="current-password" />
+        <p class="login-error" id="loginError" role="alert" hidden></p>
+        <p class="form-note" id="loginNote">Your saved listings sync with this account.</p>
+        <button class="login-submit" type="submit">Continue <span aria-hidden="true">→</span></button>
+      </form>
+      <button class="modal-switch" id="openSignUpFromLogin" type="button">New here? Create an account</button>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="signUpModal" hidden>
+    <section class="login-modal signup-modal" role="dialog" aria-modal="true" aria-labelledby="signUpTitle">
+      <button class="modal-close" id="closeSignUp" type="button" aria-label="Close sign-up">×</button>
+      <p class="kicker dark-kicker">CREATE ACCOUNT</p>
+      <h2 id="signUpTitle">Start your<br><span>saved list.</span></h2>
+      <form id="signUpForm" novalidate>
+        <label for="signUpName">Full name</label>
+        <input id="signUpName" type="text" placeholder="Juan Dela Cruz" required maxlength="100" autocomplete="name" />
+        <label for="signUpEmail">Email</label>
+        <input id="signUpEmail" type="email" placeholder="you@example.com" required maxlength="255" autocomplete="email" />
+        <label for="signUpPassword">Password</label>
+        <input id="signUpPassword" type="password" placeholder="8+ characters, letter and number" required minlength="8" maxlength="72" autocomplete="new-password" />
+        <label for="signUpConfirm">Confirm password</label>
+        <input id="signUpConfirm" type="password" placeholder="Repeat your password" required minlength="8" maxlength="72" autocomplete="new-password" />
+        <p class="login-error" id="signUpError" role="alert" hidden></p>
+        <p class="form-note">Your saved listings will sync with this account.</p>
+        <button class="login-submit" type="submit">Create account <span aria-hidden="true">→</span></button>
+      </form>
+      <button class="modal-switch" id="openLoginFromSignUp" type="button">Already have an account? Sign in</button>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="accountModal" hidden>
+    <section class="login-modal account-modal" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+      <button class="modal-close" id="closeAccount" type="button" aria-label="Close account settings">×</button>
+      <p class="kicker dark-kicker">ACCOUNT MANAGEMENT</p>
+      <h2 id="accountTitle">Your account<span>.</span></h2>
+      <p class="modal-description">Update your name, email, and password. Saved listings stay tied to this account.</p>
+      <p class="account-role">ROLE: <strong id="accountRole">user</strong></p>
+      <form id="accountForm" novalidate>
+        <label for="accountFullName">Full name</label>
+        <input id="accountFullName" type="text" maxlength="100" required autocomplete="name" />
+        <label for="accountEmail">Email</label>
+        <input id="accountEmail" type="email" maxlength="255" required autocomplete="email" />
+        <label for="accountNewPassword">New password (optional)</label>
+        <input id="accountNewPassword" type="password" maxlength="72" autocomplete="new-password" />
+        <label for="accountCurrentPassword">Current password (required to change email or password)</label>
+        <input id="accountCurrentPassword" type="password" autocomplete="current-password" />
+        <p class="login-error" id="accountError" role="alert" hidden></p>
+        <p class="form-note">Leave the new password blank to keep your current one.</p>
+        <button class="login-submit" type="submit">Save changes <span aria-hidden="true">→</span></button>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
